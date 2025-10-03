@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>TextEditor</title>
+        <style>
+            body {
+                margin: 10px;
+                padding: 0;
+                background: #f9f9f9;
+                font-family: "Segoe UI", Arial, sans-serif;
+            }
+            .container {
+                max-width: 1000px;
+                margin: 60px auto;
+                background: #fff;
+                border-radius: 10px;
+                box-shadow: 0 4px 32px rgba(0, 0, 0, 0.08);
+                padding: 40px 36px 30px 36px;
+                display: flex;
+                flex-direction: column;
+                min-height: 600px;
+                gap: 24px;
+            }
+            .editor-title {
+                font-size: 2em;
+                font-weight: 500;
+                letter-spacing: 1px;
+                margin-bottom: 8px;
+                color: #222;
+                text-align: center;
+            }
+            textarea {
+                width: 100%;
+                min-height: 50vh;
+                resize: vertical;
+                font-size: 1.2em;
+                line-height: 1.6;
+                padding: 20px;
+                border-radius: 6px;
+                border: 1px solid #e6e6e6;
+                box-sizing: border-box;
+                outline: none;
+                background: #fafbfc;
+                color: #222;
+                transition: border-color 0.2s;
+            }
+            .download-section {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                justify-content: flex-end;
+            }
+            input[type="text"] {
+                font-size: 1em;
+                padding: 7px 12px;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+                outline: none;
+                width: 170px;
+                transition: border-color 0.2s;
+            }
+            input[type="text"]:focus {
+                border-color: #4e9aff;
+            }
+            button {
+                padding: 8px 18px;
+                font-size: 1em;
+                border-radius: 4px;
+                border: none;
+                background: #4e9aff;
+                color: #fff;
+                cursor: pointer;
+                font-weight: 500;
+                transition: background 0.2s;
+            }
+            button:hover {
+                background: #2c7be5;
+            }
+            @media (max-width: 800px) {
+                .container {
+                    max-width: 98vw;
+                    margin: 20px 1vw;
+                    padding: 18px 6vw;
+                }
+                textarea {
+                    min-height: 240px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="editor-title">TextEditor</div>
+            <textarea
+                id="editor"
+                spellcheck="false"
+                placeholder="Start writing here..."
+            ></textarea>
+            <div class="download-section">
+                <input
+                    id="filename"
+                    type="text"
+                    value="note.txt"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="Filename for download"
+                />
+                <button onclick="downloadText()">Download</button>
+            </div>
+        </div>
+        <script>
+            function downloadText() {
+                const text = document.getElementById("editor").value;
+                let filename = document.getElementById("filename").value.trim();
+
+                if (!filename) filename = "note.txt";
+                if (!filename.match(/\.txt$/i)) filename += ".txt";
+                const blob = new Blob([text], { type: "text/plain" });
+
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = filename;
+                link.click();
+            }
+        </script>
+    </body>
+</html>
